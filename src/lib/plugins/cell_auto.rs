@@ -1,3 +1,4 @@
+use super::super::resources::state_timer::StateTimer;
 use bevy::prelude::*;
 
 #[allow(dead_code)]
@@ -27,14 +28,18 @@ fn add_cells(mut commands: Commands) {
 	}
 	commands.spawn().insert(cube);
 }
-fn debug_cube(query: Query<&Cube>) {
-	let world = query.single();
-	println!("{:#?}", &world);
+fn debug_cube(time: Res<Time>, mut timer: ResMut<StateTimer>, query: Query<&Cube>) {
+	if timer.0.tick(time.delta()).just_finished() {
+		let world = query.single();
+		println!("{:#?}", &world);
+	}
 }
 
 pub struct CellAutomataPlugin;
 impl Plugin for CellAutomataPlugin {
 	fn build(&self, app: &mut App) {
-		app.add_startup_system(add_cells).add_system(debug_cube);
+		app.insert_resource(StateTimer(Timer::from_seconds(1., true)))
+			.add_startup_system(add_cells)
+			.add_system(debug_cube);
 	}
 }
