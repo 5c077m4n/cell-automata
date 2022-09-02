@@ -11,8 +11,8 @@ fn main() {
 		.insert_resource({
 			if cfg!(debug_assertions) {
 				LogSettings {
-					filter: "info,wgpu_core=warn,wgpu_hal=warn,minewars=debug".into(),
-					level: Level::DEBUG,
+					filter: "trace,debug,info,wgpu_core=warn,wgpu_hal=warn,minewars=debug".into(),
+					level: Level::TRACE,
 				}
 			} else {
 				LogSettings {
