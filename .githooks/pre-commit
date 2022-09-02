@@ -5,9 +5,12 @@
 	for file in $(git diff --name-only --staged); do
 		[[ -f $file ]] || continue
 
-		cargo +nightly fmt --check -- "$file"
+		local file_ext="${file##*.}"
+		if [[ "$file_ext" == "rs" ]]; then
+			cargo +nightly fmt --check -- "$file"
+		fi
 	done
 
-	cargo clippy --fix --all-targets --allow-staged --allow-dirty --color='always'
+	cargo clippy --all-features --color='always'
 	cargo test --color='always'
 }
