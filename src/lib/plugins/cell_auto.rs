@@ -18,17 +18,6 @@ fn init_cubes(mut commands: Commands) {
 			.insert(State::default());
 	}
 }
-fn debug_cubes(
-	query: Query<(&Location, &State), With<Cube>>,
-	mut timer: ResMut<StateTimer>,
-	time: Res<Time>,
-) {
-	if timer.0.tick(time.delta()).just_finished() {
-		for (location, state) in query.iter() {
-			debug!("{:?} - {:?}", location, state);
-		}
-	}
-}
 fn move_cubes(
 	mut cubes: Query<(&mut Transform, &mut Cube)>,
 	mut timer: ResMut<StateTimer>,
@@ -58,17 +47,12 @@ fn draw(
 			..default()
 		});
 	}
-	commands.spawn_bundle(PointLightBundle {
-		point_light: PointLight {
-			intensity: 1500.0,
-			shadows_enabled: true,
-			..default()
-		},
-		transform: Transform::from_xyz(4.0, 8.0, 4.0),
+	commands.spawn_bundle(Camera3dBundle {
+		transform: Transform::from_xyz(0.0, 10.0, 20.0).looking_at(Vec3::ZERO, Vec3::Y),
 		..default()
 	});
-	commands.spawn_bundle(Camera3dBundle {
-		transform: Transform::from_xyz(-2.0, 2.5, 5.0).looking_at(Vec3::ZERO, Vec3::Y),
+	commands.spawn_bundle(PointLightBundle {
+		transform: Transform::from_translation(Vec3::ONE * 3.0),
 		..default()
 	});
 }
@@ -79,7 +63,6 @@ impl Plugin for CellAutomataPlugin {
 		app.insert_resource(StateTimer(Timer::from_seconds(1., true)))
 			.add_startup_system(init_cubes)
 			.add_startup_system(draw)
-			.add_system(move_cubes)
-			.add_system(debug_cubes);
+			.add_system(move_cubes);
 	}
 }
