@@ -15,16 +15,17 @@ fn init_cubes(mut commands: Commands) {
 			.spawn()
 			.insert(Cube)
 			.insert(Location(i % 10, i % 10, i % 10))
-			.insert(State::default());
+			.insert(State(5));
 	}
 }
 fn move_cubes(
-	mut cubes: Query<(&mut Transform, &mut Cube)>,
+	mut cubes: Query<&mut Transform, With<Cube>>,
 	mut timer: ResMut<StateTimer>,
 	time: Res<Time>,
 ) {
 	if timer.0.tick(time.delta()).just_finished() {
-		for (mut transform, _cube) in &mut cubes {
+		trace!("Moving cubes");
+		for mut transform in &mut cubes {
 			let forward = transform.forward();
 			transform.translation += forward * time.delta_seconds();
 		}
