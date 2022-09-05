@@ -1,4 +1,4 @@
-use super::super::resources::state_timer::StateTimer;
+use super::super::resources::decay_timer::DecayTimer;
 use bevy::prelude::*;
 
 const N_CUBES: usize = 10;
@@ -29,7 +29,7 @@ fn decay_step(
 		),
 		With<Cube>,
 	>,
-	mut timer: ResMut<StateTimer>,
+	mut timer: ResMut<DecayTimer>,
 	time: Res<Time>,
 ) {
 	if timer.0.tick(time.delta()).just_finished() {
@@ -89,7 +89,7 @@ fn setup(
 pub struct CellAutomataPlugin;
 impl Plugin for CellAutomataPlugin {
 	fn build(&self, app: &mut App) {
-		app.insert_resource(StateTimer(Timer::from_seconds(1., true)))
+		app.insert_resource(DecayTimer::default())
 			.add_startup_system(setup)
 			.add_system(move_cubes)
 			.add_system(decay_step);
