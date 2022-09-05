@@ -2,7 +2,7 @@ use super::super::resources::decay_timer::DecayTimer;
 use bevy::prelude::*;
 
 const N_CUBES: usize = 10;
-const CUBE_SIZE: f32 = 1.0;
+const CUBE_SIZE: f32 = 2.0;
 
 #[derive(Component)]
 struct Cube;
@@ -62,9 +62,9 @@ fn setup(
 				mesh: meshes.add(Mesh::from(shape::Cube { size: CUBE_SIZE })),
 				material: materials.add(Color::rgba(1.0, 1.0, 0.5, 1.0).into()),
 				transform: Transform::from_xyz(
-					(i % 10) as f32 / CUBE_SIZE,
-					(i % 10) as f32 / CUBE_SIZE,
-					0.0 / CUBE_SIZE,
+					(i % 10) as f32 * CUBE_SIZE,
+					(i % 10) as f32 * CUBE_SIZE,
+					0.0 * CUBE_SIZE,
 				),
 				..default()
 			})
