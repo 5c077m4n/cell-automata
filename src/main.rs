@@ -21,6 +21,10 @@ fn main() {
 				}
 			}
 		})
+		.insert_resource(WindowDescriptor {
+			title: "Cell Automata 3D".into(),
+			..default()
+		})
 		.add_plugins(DefaultPlugins)
 		.add_plugin(CellAutomataPlugin)
 		.run();
