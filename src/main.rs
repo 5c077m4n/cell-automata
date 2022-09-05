@@ -3,6 +3,7 @@ mod lib;
 use bevy::{
 	log::{Level, LogSettings},
 	prelude::*,
+	window::close_on_esc,
 };
 use lib::plugins::cell_auto::CellAutomataPlugin;
 
@@ -27,5 +28,6 @@ fn main() {
 		})
 		.add_plugins(DefaultPlugins)
 		.add_plugin(CellAutomataPlugin)
+		.add_system(close_on_esc)
 		.run();
 }
