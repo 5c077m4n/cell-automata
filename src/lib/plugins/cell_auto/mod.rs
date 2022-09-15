@@ -28,11 +28,7 @@ fn setup(
 				p.spawn_bundle(PbrBundle {
 					mesh: meshes.add(Mesh::from(shape::Cube { size: CUBE_SIZE })),
 					material: materials.add(Color::ANTIQUE_WHITE.into()),
-					transform: Transform::from_xyz(
-						(i % 10) as f32 * CUBE_SIZE,
-						(i % 10) as f32 * CUBE_SIZE,
-						0.0 * CUBE_SIZE,
-					),
+					transform: Transform::from_xyz((i % 10) as f32 * CUBE_SIZE, 0.0, 0.0),
 					..default()
 				})
 				.insert_bundle((Cube, State::new(STATE_COUNT)));

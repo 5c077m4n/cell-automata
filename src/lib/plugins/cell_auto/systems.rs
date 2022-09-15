@@ -43,61 +43,37 @@ pub fn move_cubes(
 
 			for (curr_trns, curr_global_trns, _) in &cubes_clone {
 				let curr_global_translation = curr_global_trns.translation();
-				let (x, y, z) = (
-					curr_trns.local_x(),
-					curr_trns.local_y(),
-					curr_trns.local_z(),
-				);
 
-				if curr_global_translation + x + y == global_translation {
-					neighbour_count += 1;
-				}
-				if curr_global_translation + x - y == global_translation {
-					neighbour_count += 1;
-				}
-				if curr_global_translation - x + y == global_translation {
-					neighbour_count += 1;
-				}
-				if curr_global_translation - x - y == global_translation {
-					neighbour_count += 1;
-				}
-				if curr_global_translation + x + z == global_translation {
-					neighbour_count += 1;
-				}
-				if curr_global_translation + x - z == global_translation {
-					neighbour_count += 1;
-				}
-				if curr_global_translation - x + z == global_translation {
-					neighbour_count += 1;
-				}
-				if curr_global_translation - x - z == global_translation {
-					neighbour_count += 1;
-				}
-				if curr_global_translation - x == global_translation {
-					neighbour_count += 1;
-				}
-				if curr_global_translation + y == global_translation {
-					neighbour_count += 1;
-				}
-				if curr_global_translation - y == global_translation {
-					neighbour_count += 1;
-				}
-				if curr_global_translation + z == global_translation {
-					neighbour_count += 1;
-				}
-				if curr_global_translation - z == global_translation {
-					neighbour_count += 1;
-				}
-				if neighbour_count > 0 {
-					info!(
-						"{:?}, {:?}, {:?}",
-						curr_global_translation, global_translation, neighbour_count
+				if curr_global_translation != global_translation {
+					let (x, y, z) = (
+						curr_trns.local_x() * 2.,
+						curr_trns.local_y() * 2.,
+						curr_trns.local_z() * 2.,
 					);
+
+					if curr_global_translation + x == global_translation {
+						neighbour_count += 1;
+					}
+					if curr_global_translation - x == global_translation {
+						neighbour_count += 1;
+					}
+					if curr_global_translation + y == global_translation {
+						neighbour_count += 1;
+					}
+					if curr_global_translation - y == global_translation {
+						neighbour_count += 1;
+					}
+					if curr_global_translation + z == global_translation {
+						neighbour_count += 1;
+					}
+					if curr_global_translation - z == global_translation {
+						neighbour_count += 1;
+					}
 				}
 			}
 
-			if neighbour_count == 4 {
-				let direction = trns.local_x();
+			if neighbour_count > 1 {
+				let direction = trns.local_y();
 				translation += direction * time.delta_seconds();
 			}
 		}
